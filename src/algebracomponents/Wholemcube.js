@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 export const Wholemcube = (props) => {
   document.title = props.title;
   const history = useHistory();
@@ -18,17 +19,44 @@ export const Wholemcube = (props) => {
     setscndvar(e.target.value);
   };
   const handlewholesqr = () => {
-    let frstcube = Math.pow(frstvar, 3);
-    let scndcube = Math.pow(scndvar, 3);
-    let frstsqr = Math.pow(frstvar, 2);
-    let scndsqr = Math.pow(scndvar, 2);
-    setanswer(
-      frstcube -
-        3 * frstsqr * scndvar +
-        3 * frstvar * scndsqr -
-        scndcube +
-        " = (a-b)³ "
-    );
+    if (frstvar && scndvar) {
+      let frstcube = Math.pow(frstvar, 3);
+      let scndcube = Math.pow(scndvar, 3);
+      let frstsqr = Math.pow(frstvar, 2);
+      let scndsqr = Math.pow(scndvar, 2);
+      setanswer(
+        frstcube -
+          3 * frstsqr * scndvar +
+          3 * frstvar * scndsqr -
+          scndcube +
+          " = (a-b)³ "
+      );
+    } else {
+      toast.error("Input field cant be empty");
+    }
+    if (frstvar.length < 0) {
+      toast.warning("Enter something");
+      // return false;
+    } else if (!/^\S{3,}$/.test(frstvar && scndvar)) {
+      // toast.warning("only number are allowed");
+      // return false;
+    } else if (!/^[a-zA-Z]+$/.test(frstvar && scndvar)) {
+      // toast.warning("only numbers are allowed");
+    } else if (!/^(?:(\w)(?!\1\1))+$/.test(frstvar && scndvar)) {
+      toast.warning("only numbers are allowed");
+    } else {
+      let frstcube = Math.pow(frstvar, 3);
+      let scndcube = Math.pow(scndvar, 3);
+      let frstsqr = Math.pow(frstvar, 2);
+      let scndsqr = Math.pow(scndvar, 2);
+      setanswer(
+        frstcube -
+          3 * frstsqr * scndvar +
+          3 * frstvar * scndsqr -
+          scndcube +
+          " = (a-b)³ "
+      );
+    }
   };
 
   return (
@@ -47,6 +75,10 @@ export const Wholemcube = (props) => {
               placeholder="enter the values of a "
               onChange={handlechange}
               value={frstvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               required
               type="number"
               className="form-control text-center"
@@ -62,6 +94,10 @@ export const Wholemcube = (props) => {
               placeholder="enter the value of b  "
               onChange={handlechange1}
               value={scndvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               type="number"
               required
               className="form-control text-center"
@@ -145,6 +181,20 @@ export const Wholemcube = (props) => {
           <h1 className={`text-${props.color === "light" ? "dark" : "light"}`}>
             Answer:{answer}
           </h1>
+          <iframe
+            style={{ borderRadius: "25px" }}
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowFullScreen
+            className="embed-responsive-item"
+            width="300"
+            height="300"
+            src="https://www.youtube.com/embed/uGOpFE1r_Vs"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen="true"
+          ></iframe>
         </div>
       )}
     </>

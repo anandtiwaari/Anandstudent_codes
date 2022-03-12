@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 export const Areacircle = (props) => {
   document.title = props.title;
   const history = useHistory();
@@ -13,11 +14,31 @@ export const Areacircle = (props) => {
   };
 
   const handlearea = () => {
-    setanswer(2 * 3.14 * frstvar + " = πr²");
+    if (frstvar) {
+      let frstsquare = Math.pow(frstvar, 2);
+      setanswer(3.14 * frstsquare + " = πr²");
+    } else {
+      toast.error("Input field cant be empty");
+    }
+    if (frstvar.length < 0) {
+      toast.warning("Enter something");
+      // return false;
+    } else if (!/^\S{3,}$/.test(frstvar)) {
+      // toast.warning("only number are allowed");
+      // return false;
+    } else if (!/^[a-zA-Z]+$/.test(frstvar)) {
+      // toast.warning("only numbers are allowed");
+    } else if (!/^(?:(\w)(?!\1\1))+$/.test(frstvar)) {
+      toast.warning("only numbers are allowed");
+    } else {
+      let frstsquare = Math.pow(frstvar, 2);
+      // let scndsquare = Math.pow(scndvar, 2);
+      setanswer(3.14 * frstsquare + " = πr²");
+    }
   };
   //   const [answer, setanswer] = useState("");
   return (
-    <>
+    <div className="container d-flex flex-column justify-content-center align-items-center">
       <div
         className="card text-center container bg-dark my-2"
         style={{ width: "18rem", color: "white" }}
@@ -32,6 +53,10 @@ export const Areacircle = (props) => {
               placeholder="enter the values of Radius "
               onChange={handlechange}
               value={frstvar}
+              onClick={() => {
+                // setpehla(0);
+                setanswer("");
+              }}
               type="number"
               required
               class="form-control text-center"
@@ -74,6 +99,20 @@ export const Areacircle = (props) => {
           Back
         </button>
       </div>
-    </>
+      <iframe
+        style={{ borderRadius: "25px" }}
+        webkitallowfullscreen
+        mozallowfullscreen
+        allowFullScreen
+        className="embed-responsive-item"
+        width="300"
+        height="300"
+        src="https://www.youtube.com/embed/lZa312pEcTw"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen="true"
+      ></iframe>
+    </div>
   );
 };

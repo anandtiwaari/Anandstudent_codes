@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 export const Findprice = (props) => {
   document.title = props.title;
   const history = useHistory();
@@ -20,7 +21,24 @@ export const Findprice = (props) => {
     // console.log(scndvar);
   };
   const handlefindgram = () => {
-    setanswer((frstvar * scndvar) / 1000 + "Price");
+    if (frstvar && scndvar) {
+      setanswer((frstvar * scndvar) / 1000 + "Price");
+    } else {
+      toast.error("Input field cant be empty");
+    }
+    if (frstvar.length < 0) {
+      toast.warning("Enter something");
+      // return false;
+    } else if (!/^\S{3,}$/.test(frstvar && scndvar)) {
+      // toast.warning("only number are allowed");
+      // return false;
+    } else if (!/^[a-zA-Z]+$/.test(frstvar && scndvar)) {
+      // toast.warning("only numbers are allowed");
+    } else if (!/^(?:(\w)(?!\1\1))+$/.test(frstvar && scndvar)) {
+      toast.warning("only numbers are allowed");
+    } else {
+      setanswer((frstvar * scndvar) / 1000 + "Price");
+    }
 
     console.log(frstvar);
     console.log(scndvar);
@@ -44,6 +62,10 @@ export const Findprice = (props) => {
               placeholder="enter the values of a "
               onChange={handlechange}
               value={frstvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               required
               type="number"
               className="form-control text-center"
@@ -59,6 +81,10 @@ export const Findprice = (props) => {
               placeholder="enter the value of b"
               onChange={handlechange1}
               value={scndvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               type="number"
               required
               className="form-control text-center"
@@ -77,7 +103,7 @@ export const Findprice = (props) => {
           <Link
             to="/findgram"
             // type="button"
-            className="btn btn-primary text-center my-2 mx-2"   
+            className="btn btn-primary text-center my-2 mx-2"
             // onClick={handlefindgram}
             // disabled={!frstvar.length > 0 && !scndvar.length > 0}
           >

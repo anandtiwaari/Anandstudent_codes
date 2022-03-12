@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 export const Wholeminus = (props) => {
   document.title = props.title;
   const history = useHistory();
@@ -19,9 +20,31 @@ export const Wholeminus = (props) => {
     setscndvar(e.target.value);
   };
   const handlewholesqr = () => {
-    let frstsquare = Math.pow(frstvar, 2);
-    let scndsquare = Math.pow(scndvar, 2);
-    setanswer(frstsquare - 2 * frstvar * scndvar + scndsquare + " = (a-b)² ");
+    if (frstvar && scndvar) {
+      let frstsquare = Math.pow(frstvar, 2);
+      let scndsquare = Math.pow(scndvar, 2);
+      setanswer(frstsquare - 2 * frstvar * scndvar + scndsquare + " = (a-b)² ");
+    } else {
+      toast.error("Input Field Cant Be Empty");
+    }
+    if (frstvar.length < 0) {
+      toast.warning("Enter something");
+      // return false;
+    } else if (!/^\S{3,}$/.test(frstvar && scndvar)) {
+      // toast.warning("only number are allowed");
+      // return false;
+    } else if (!/^[a-zA-Z]+$/.test(frstvar && scndvar)) {
+      // toast.warning("only numbers are allowed");
+    } else if (!/^(?:(\w)(?!\1\1))+$/.test(frstvar && scndvar)) {
+      toast.warning("only numbers are allowed");
+    } else {
+      let frstsquare = Math.pow(frstvar, 2);
+      let scndsquare = Math.pow(scndvar, 2);
+      setanswer(frstsquare - 2 * frstvar * scndvar + scndsquare + " = (a-b)² ");
+    }
+
+    // let frstsquare = Math.pow(frstvar, 2);
+    // let scndsquare = Math.pow(scndvar, 2);
   };
 
   return (
@@ -40,6 +63,10 @@ export const Wholeminus = (props) => {
               placeholder="enter the values of a "
               onChange={handlechange}
               value={frstvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               type="number"
               required
               class="form-control text-center"
@@ -55,6 +82,10 @@ export const Wholeminus = (props) => {
               placeholder="enter the value of b  "
               onChange={handlechange1}
               value={scndvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               type="number"
               required
               class="form-control text-center"
@@ -120,6 +151,35 @@ export const Wholeminus = (props) => {
           <h1 className={`text-${props.color === "light" ? "dark" : "light"}`}>
             Answer:{answer}
           </h1>
+
+          {/* <iframe
+            style={{ borderRadius: "25px" }}
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowFullScreen
+            className="embed-responsive-item"
+            width="300"
+            height="300"
+            src="https://youtu.be/embed/EXfhP-m_AzY"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen="true"
+          ></iframe> */}
+
+          <iframe
+            style={{ borderRadius: "25px" }}
+            webkitallowfullscreen
+            mozallowfullscreen
+            allowFullScreen
+            width="300"
+            height="300"
+            src="https://www.youtube.com/embed/EXfhP-m_AzY"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen="true"
+          ></iframe>
         </div>
       )}
     </>

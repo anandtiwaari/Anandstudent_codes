@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 export const Findgram = (props) => {
   document.title = props.title;
   const history = useHistory();
@@ -20,7 +21,26 @@ export const Findgram = (props) => {
     // console.log(scndvar);
   };
   const handlefindgram = () => {
-    setanswer((1000 * scndvar) / frstvar + "Gram");
+    if (frstvar && scndvar) {
+      setanswer((1000 * scndvar) / frstvar + "Gram");
+    } else {
+      toast.error("Input field cant be empty");
+    }
+    if (frstvar.length < 0) {
+      toast.warning("Enter something");
+      // return false;
+    } else if (!/^\S{3,}$/.test(frstvar && scndvar)) {
+      // toast.warning("only number are allowed");
+      // return false;
+    } else if (!/^[a-zA-Z]+$/.test(frstvar && scndvar)) {
+      // toast.warning("only numbers are allowed");
+    } else if (!/^(?:(\w)(?!\1\1))+$/.test(frstvar && scndvar)) {
+      toast.warning("only numbers are allowed");
+    } else {
+      // let frstsquare = Math.pow(frstvar, 2);
+      // let scndsquare = Math.pow(scndvar, 2);
+      setanswer((1000 * scndvar) / frstvar + "Gram");
+    }
 
     console.log(frstvar);
     console.log(scndvar);
@@ -44,6 +64,10 @@ export const Findgram = (props) => {
               placeholder="enter the values of a "
               onChange={handlechange}
               value={frstvar}
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               required
               type="number"
               className="form-control text-center"
@@ -60,6 +84,10 @@ export const Findgram = (props) => {
               onChange={handlechange1}
               value={scndvar}
               type="number"
+              onClick={() => {
+                setpehla(0);
+                setanswer("");
+              }}
               required
               className="form-control text-center"
               id="exampleInputPassword1"
